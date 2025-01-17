@@ -1,0 +1,75 @@
+
+1. Select * from employee order by levels desc limit 1;
+
+
+2. Select billing_country, count(*) as most_invoices from invoice
+   group by billing_country order by most_invoices desc; 
+
+3. select billing_country, total from invoice order by total desc limit 3;
+
+4. select billing_city, sum(total) as invoice_totals from invoice group by billing_city      order by invoice_totals desc limit 1;
+
+5. Select c.customer_id, concat(c.first_name,c.last_name) as name, sum(i.total) as money_spent from 
+customer c join invoice i
+using(customer_id)
+group by name 
+order by money_spent desc limit 1;
+
+6. Select distinct c.email, c.first_name, c.last_name, g.name from customer c 
+join invoice i using(customer_id)
+join invoice_line il using (invoice_id)
+join track t using (track_id)
+join genre g using (genre_id)
+where g.name like '%Rock%' order by email;
+
+7. select a.artist_id, a.name, g.name, count(g.name) as most_rock_music from artist a 
+join album al using(artist_id)
+join track t using (album_id)
+join genre g using (genre_id)
+where g.name like '%Rock%'
+group by a.artist_id, a.name, g.name
+order by most_rock_music desc
+limit 10;
+
+8. select name, milliseconds from track where milliseconds > (select avg(milliseconds) from track) order by milliseconds desc;
+
+9. SELECT 
+    c.first_name || ' ' || c.last_name AS customer_name, 
+    a.name AS artist_name, 
+    SUM(il.unit_price * il.quantity) AS total_spent
+FROM 
+    invoice i
+JOIN 
+    customer c ON c.customer_id = i.customer_id
+JOIN 
+    invoice_line il ON i.invoice_id = il.invoice_id
+JOIN 
+    track t ON il.track_id = t.track_id
+JOIN 
+    album al ON t.album_id = al.album_id
+JOIN 
+    artist a ON al.artist_id = a.artist_id
+WHERE 
+    a.artist_id = (
+        SELECT 
+            artist.artist_id
+        FROM 
+            invoice_line
+        JOIN 
+            track ON track.track_id = invoice_line.track_id
+        JOIN 
+            album ON album.album_id = track.album_id
+        JOIN 
+            artist ON artist.artist_id = album.artist_id
+        GROUP BY 
+            artist.artist_id
+        ORDER BY 
+            SUM(invoice_line.unit_price * invoice_line.quantity) DESC
+        LIMIT 1
+    )
+GROUP BY 
+    c.customer_id, customer_name, a.name
+ORDER BY 
+    total_spent DESC;
+
+

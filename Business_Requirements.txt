@@ -1,0 +1,18 @@
+-- 1. who is the senior most employee based on job title?
+
+-- 2. which country has the most invoices?
+
+-- 3. What are the top 3 values of total invoices?
+
+--4. Which city has the best customers? They would like to throw a promotional music fest in the city that made the most money. Write a query that returns one city that has highest sum of invoice totals.
+
+--5. Who is the best customer? Customer who spent the most money. Write a query that returns the best customer?
+
+-- 6. Write a query to return the email, first name, last name and genre of all rock music listeners Return list ordered alphabetically by email starting with A.
+
+-- 7. Lets invite the artists who have written most rock music in our dataset. Write a query that returns the Artist name and total track count of the 10 rock bands.
+
+-- 8.Return all the track names that have song length longer than average song length.
+      Reurn the name and milliseconds for each track. Order by Song length
+
+-- 9. Find how much money spent by each customer on artist? Write a query to return customer_name, artist_name and total spent?
